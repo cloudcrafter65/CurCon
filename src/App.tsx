@@ -61,44 +61,57 @@ function App() {
     <Layout>
       <Header />
       
-      <ExchangeRate
-        fromCurrency={fromCurrency}
-        toCurrency={toCurrency}
-        rate={exchangeRate}
-      />
-
-      {error ? (
-        <div className="bg-red-50 dark:bg-red-900/50 text-red-700 dark:text-red-300 p-4 rounded-md text-sm">
-          {error}
-        </div>
-      ) : (
-        <div className="space-y-8">
-          <ConversionPanel
-            amount={amount}
-            convertedAmount={convertedAmount}
+      <div className="space-y-6">
+        <section>
+          <ExchangeRate
             fromCurrency={fromCurrency}
             toCurrency={toCurrency}
-            onAmountChange={setAmount}
-            onSwapCurrencies={handleSwapCurrencies}
+            rate={exchangeRate}
           />
+        </section>
 
-          <StandardAmounts
-            onSelect={(value) => setAmount(value.toString())}
-            exchangeRate={exchangeRate}
-            fromCurrency={fromCurrency}
-            toCurrency={toCurrency}
+        {error ? (
+          <div className="bg-red-50 dark:bg-red-900/50 text-red-700 dark:text-red-300 p-4 rounded-md text-sm">
+            {error}
+          </div>
+        ) : (
+          <div className="space-y-6">
+            <section className="bg-white dark:bg-gray-800 shadow-xl border border-gray-100 dark:border-gray-700 rounded-xl p-8 relative">
+              <div className="absolute inset-0 bg-gradient-to-b from-blue-50/50 to-transparent dark:from-blue-900/20 rounded-xl" />
+              <div className="relative">
+                <ConversionPanel
+                  amount={amount}
+                  convertedAmount={convertedAmount}
+                  fromCurrency={fromCurrency}
+                  toCurrency={toCurrency}
+                  onAmountChange={setAmount}
+                  onSwapCurrencies={handleSwapCurrencies}
+                />
+              </div>
+            </section>
+
+            <section className="pt-2">
+              <StandardAmounts
+                onSelect={(value) => setAmount(value.toString())}
+                exchangeRate={exchangeRate}
+                fromCurrency={fromCurrency}
+                toCurrency={toCurrency}
+              />
+            </section>
+          </div>
+        )}
+
+        <section className="pt-2">
+          <DefaultCurrencySettings
+            defaultFrom={defaultFromCurrency}
+            defaultTo={defaultToCurrency}
+            onDefaultFromChange={handleDefaultFromChange}
+            onDefaultToChange={handleDefaultToChange}
           />
-        </div>
-      )}
+        </section>
 
-      <DefaultCurrencySettings
-        defaultFrom={defaultFromCurrency}
-        defaultTo={defaultToCurrency}
-        onDefaultFromChange={handleDefaultFromChange}
-        onDefaultToChange={handleDefaultToChange}
-      />
-
-      <Footer lastUpdated={lastUpdated} isLoading={isLoading} />
+        <Footer lastUpdated={lastUpdated} isLoading={isLoading} />
+      </div>
     </Layout>
   );
 }

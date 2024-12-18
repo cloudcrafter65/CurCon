@@ -56,12 +56,17 @@ export function ConversionPanel({
       </div>
 
       <div className="flex-1">
-        <CurrencyInput
-          currencyCode={toCurrency}
-          currencyName={COMMON_CURRENCIES[toCurrency]}
-          value={convertedAmount}
-          readOnly
-        />
+        <div className="flex flex-col gap-1">
+          <label className="text-sm text-gray-600 dark:text-gray-400">
+            {COMMON_CURRENCIES[toCurrency]} ({toCurrency})
+          </label>
+          <div className="flex items-center p-2 rounded-lg border border-gray-300 
+                        dark:border-gray-700 bg-white dark:bg-gray-800">
+            <span className="text-lg text-gray-900 dark:text-gray-100">
+              {convertedAmount}
+            </span>
+          </div>
+        </div>
       </div>
     </div>
   );
