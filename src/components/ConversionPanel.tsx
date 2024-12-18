@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { ArrowLeftRight } from 'lucide-react';
 import { CurrencyInput } from './CurrencyInput';
+import { COMMON_CURRENCIES } from '../constants/currency';
 
 interface ConversionPanelProps {
   amount: string;
@@ -31,7 +32,8 @@ export function ConversionPanel({
     <div className="flex items-end gap-2 sm:gap-4">
       <div className="flex-1">
         <CurrencyInput
-          label={fromCurrency}
+          currencyCode={fromCurrency}
+          currencyName={COMMON_CURRENCIES[fromCurrency]}
           value={amount}
           onChange={onAmountChange}
         />
@@ -55,7 +57,8 @@ export function ConversionPanel({
 
       <div className="flex-1">
         <CurrencyInput
-          label={toCurrency}
+          currencyCode={toCurrency}
+          currencyName={COMMON_CURRENCIES[toCurrency]}
           value={convertedAmount}
           readOnly
         />

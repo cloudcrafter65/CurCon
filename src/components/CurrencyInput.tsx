@@ -1,14 +1,16 @@
 import React from 'react';
 
 interface CurrencyInputProps {
-  label: string;
+  currencyCode: string;
+  currencyName: string;
   value: string;
   onChange?: (value: string) => void;
   readOnly?: boolean;
 }
 
 export function CurrencyInput({
-  label,
+  currencyCode,
+  currencyName,
   value,
   onChange,
   readOnly,
@@ -29,7 +31,7 @@ export function CurrencyInput({
   return (
     <div className="flex flex-col gap-2">
       <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
-        {label}
+        {currencyName} ({currencyCode})
       </label>
       <input
         type="text"
