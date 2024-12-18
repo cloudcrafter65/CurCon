@@ -1,7 +1,6 @@
-import React from 'react';
+import { CURRENCY_CONFIGS, DEFAULT_AMOUNTS } from '../constants/currency';
 
 interface StandardAmountsProps {
-  amounts: number[];
   onSelect: (amount: number) => void;
   exchangeRate: number | null;
   fromCurrency: string;
@@ -9,17 +8,18 @@ interface StandardAmountsProps {
 }
 
 export function StandardAmounts({
-  amounts,
   onSelect,
   exchangeRate,
   fromCurrency,
   toCurrency,
 }: StandardAmountsProps) {
+  const standardAmounts = CURRENCY_CONFIGS[fromCurrency as keyof typeof CURRENCY_CONFIGS] || DEFAULT_AMOUNTS;
+
   return (
     <div className="space-y-3">
       <h3 className="text-lg font-medium text-gray-700 dark:text-gray-300">Quick Convert</h3>
       <div className="space-y-2">
-        {amounts.map((amount) => (
+        {standardAmounts.map((amount) => (
           <button
             key={amount}
             onClick={() => onSelect(amount)}
@@ -27,9 +27,14 @@ export function StandardAmounts({
                      dark:hover:bg-blue-800 rounded-lg transition-colors text-blue-700 
                      dark:text-blue-300 flex justify-between items-center"
           >
-            <span className="font-medium">{amount} {fromCurrency}</span>
+            <span className="font-medium">
+              {amount.toLocaleString()} {fromCurrency}
+            </span>
             <span className="text-blue-600 dark:text-blue-400">
-              ≈ {exchangeRate ? (amount * exchangeRate).toFixed(2) : '0.00'} {toCurrency}
+              ≈ {exchangeRate ? (amount * exchangeRate).toLocaleString(undefined, {
+                  maximumFractionDigits: 2,
+                  minimumFractionDigits: 2
+                }) : '0.00'} {toCurrency}
             </span>
           </button>
         ))}
