@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Layout } from './components/Layout';
 import { Header } from './components/Header';
 import { Footer } from './components/Footer';
@@ -8,11 +8,22 @@ import { ExchangeRate } from './components/ExchangeRate';
 import { useExchangeRate } from './hooks/useExchangeRate';
 import { STANDARD_AMOUNTS, DEFAULT_CURRENCIES } from './constants/currency';
 import { formatAmount, parseAmount } from './utils/format';
+import { DefaultCurrencySettings } from './components/DefaultCurrencySettings';
 
 function App() {
   const [amount, setAmount] = useState('1');
-  const [fromCurrency, setFromCurrency] = useState(DEFAULT_CURRENCIES.from);
-  const [toCurrency, setToCurrency] = useState(DEFAULT_CURRENCIES.to);
+  const [fromCurrency, setFromCurrency] = useState(() => {
+    return localStorage.getItem('defaultFromCurrency') || DEFAULT_CURRENCIES.from;
+  });
+  const [toCurrency, setToCurrency] = useState(() => {
+    return localStorage.getItem('defaultToCurrency') || DEFAULT_CURRENCIES.to;
+  });
+  const [defaultFromCurrency, setDefaultFromCurrency] = useState(() => {
+    return localStorage.getItem('defaultFromCurrency') || DEFAULT_CURRENCIES.from;
+  });
+  const [defaultToCurrency, setDefaultToCurrency] = useState(() => {
+    return localStorage.getItem('defaultToCurrency') || DEFAULT_CURRENCIES.to;
+  });
   
   const { exchangeRate, lastUpdated, isLoading, error } = useExchangeRate(fromCurrency, toCurrency);
 
@@ -21,6 +32,29 @@ function App() {
   const handleSwapCurrencies = () => {
     setFromCurrency(toCurrency);
     setToCurrency(fromCurrency);
+  };
+
+  useEffect(() => {
+    localStorage.setItem('defaultFromCurrency', defaultFromCurrency);
+    localStorage.setItem('defaultToCurrency', defaultToCurrency);
+  }, [defaultFromCurrency, defaultToCurrency]);
+
+  useEffect(() => {
+    const savedFromCurrency = localStorage.getItem('defaultFromCurrency');
+    const savedToCurrency = localStorage.getItem('defaultToCurrency');
+    
+    if (savedFromCurrency) setDefaultFromCurrency(savedFromCurrency);
+    if (savedToCurrency) setDefaultToCurrency(savedToCurrency);
+  }, []);
+
+  const handleDefaultFromChange = (currency: string) => {
+    setDefaultFromCurrency(currency);
+    setFromCurrency(currency);
+  };
+
+  const handleDefaultToChange = (currency: string) => {
+    setDefaultToCurrency(currency);
+    setToCurrency(currency);
   };
 
   return (
@@ -57,6 +91,13 @@ function App() {
           />
         </div>
       )}
+
+      <DefaultCurrencySettings
+        defaultFrom={defaultFromCurrency}
+        defaultTo={defaultToCurrency}
+        onDefaultFromChange={handleDefaultFromChange}
+        onDefaultToChange={handleDefaultToChange}
+      />
 
       <Footer lastUpdated={lastUpdated} isLoading={isLoading} />
     </Layout>
