@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Layout } from './components/Layout';
 import { Header } from './components/Header';
 import { Footer } from './components/Footer';
@@ -6,7 +6,7 @@ import { ConversionPanel } from './components/ConversionPanel';
 import { StandardAmounts } from './components/StandardAmounts';
 import { ExchangeRate } from './components/ExchangeRate';
 import { useExchangeRate } from './hooks/useExchangeRate';
-import { STANDARD_AMOUNTS, DEFAULT_CURRENCIES } from './constants/currency';
+import { DEFAULT_CURRENCIES } from './constants/currency';
 import { formatAmount, parseAmount } from './utils/format';
 import { DefaultCurrencySettings } from './components/DefaultCurrencySettings';
 
@@ -83,7 +83,6 @@ function App() {
           />
 
           <StandardAmounts
-            amounts={STANDARD_AMOUNTS}
             onSelect={(value) => setAmount(value.toString())}
             exchangeRate={exchangeRate}
             fromCurrency={fromCurrency}
