@@ -20,7 +20,7 @@ export function ConversionPanel({
   onSwapCurrencies,
 }: ConversionPanelProps) {
   return (
-    <div className="grid grid-cols-[1fr,auto,1fr] gap-6 items-center">
+    <div className="flex flex-col gap-4">
       <CurrencyInput
         label="Amount"
         value={amount}
@@ -28,16 +28,18 @@ export function ConversionPanel({
         onChange={onAmountChange}
       />
       
-      <button
-        onClick={onSwapCurrencies}
-        className="flex justify-center items-center bg-blue-100 hover:bg-blue-200 
-                 dark:bg-blue-900 dark:hover:bg-blue-800 p-4 rounded-full 
-                 transition-colors group mt-6"
-        aria-label="Swap currencies"
-      >
-        <ArrowLeftRight className="text-blue-600 dark:text-blue-400 w-6 h-6 
-                                transition-transform group-hover:scale-110" />
-      </button>
+      <div className="flex justify-center">
+        <button
+          onClick={onSwapCurrencies}
+          className="flex justify-center items-center bg-blue-100 hover:bg-blue-200 
+                   dark:bg-blue-900 dark:hover:bg-blue-800 p-4 rounded-full 
+                   transition-colors group"
+          aria-label="Swap currencies"
+        >
+          <ArrowLeftRight className="text-blue-600 dark:text-blue-400 w-6 h-6 
+                                  transition-transform group-hover:scale-110" />
+        </button>
+      </div>
 
       <CurrencyInput
         label="Converted Amount"
