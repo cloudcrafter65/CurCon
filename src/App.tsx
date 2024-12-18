@@ -25,7 +25,13 @@ function App() {
     return localStorage.getItem('defaultToCurrency') || DEFAULT_CURRENCIES.to;
   });
   
-  const { exchangeRate, lastUpdated, isLoading, error } = useExchangeRate(fromCurrency, toCurrency);
+  const { 
+    exchangeRate, 
+    lastUpdated, 
+    nextUpdate, 
+    isLoading, 
+    error 
+  } = useExchangeRate(fromCurrency, toCurrency);
 
   const convertedAmount = exchangeRate ? formatAmount(parseAmount(amount) * exchangeRate) : '0.00';
 
@@ -110,7 +116,11 @@ function App() {
           />
         </section>
 
-        <Footer lastUpdated={lastUpdated} isLoading={isLoading} />
+        <Footer 
+          lastUpdated={lastUpdated} 
+          nextUpdate={nextUpdate} 
+          isLoading={isLoading} 
+        />
       </div>
     </Layout>
   );
